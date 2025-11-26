@@ -2,16 +2,20 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/wilso663/go-blog/internal/config"
+	"github.com/wilso663/go-blog/internal/database"
 )
 
 type state struct {
 	Cfg *config.Config
+	Db *database.Queries
 }
 
-func NewState(cfg *config.Config) *state{
+func NewState(cfg *config.Config, db *database.Queries) *state{
 	return &state {
 		Cfg: cfg,
+		Db: db,
 	}
 }
 

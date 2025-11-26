@@ -11,6 +11,7 @@ const configFileName = ".gatorconfig.json";
 type Config struct {
 	DbUrl string `json:"db_url"`
 	CurrentUserName string `json:"current_user_name,omitempty"`
+	ConnectionString string `json:"connection_string"`
 }
 
 func GetConfigFilePath() (string, error) {
@@ -49,6 +50,7 @@ func (c *Config) SetUser(UserName string) error {
 	}
 	return nil
 }
+
 func write(cfg *Config) error {
 	fileName, err := GetConfigFilePath(); if err != nil {
 		return fmt.Errorf("config file path error: %s", err)

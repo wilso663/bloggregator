@@ -8,6 +8,7 @@ import (
 	"github.com/wilso663/go-blog/internal/database"
 )
 
+
 func handlerGetFeeds(s *state, cmd Command) error {
 	feeds, err := s.Db.GetAllFeeds(context.Background())
 	if err != nil {

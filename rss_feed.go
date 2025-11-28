@@ -25,7 +25,13 @@ type RSSItem struct {
 	Description		string	`xml:"description"`
 	PubDate				string 	`xml:"pubDate"`
 }
-
+func printFormattedFeed(feed *RSSFeed){
+	fmt.Println("Current RSS Feed:")
+	fmt.Printf("Channel: %s\n", feed.Channel.Title);
+	for _, item := range feed.Channel.Item {
+		fmt.Printf("%s\n", item.Title);
+	}
+}
 
 func fetchFeed(ctx context.Context, feedURL string) (*RSSFeed, error) {
 	req, err := http.NewRequestWithContext(ctx, "GET", feedURL, nil);

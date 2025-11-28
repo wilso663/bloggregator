@@ -13,8 +13,7 @@ import (
 )
 
 func main() {
-	//println(os.UserHomeDir());
-	//println(config.GetConfigFilePath());
+
 	cfg, err := config.Read()
 	if err != nil {
 		log.Fatalf("error reading config: %v", err)
@@ -37,20 +36,20 @@ func main() {
 	commandMap.register("follow", middlewareLoggedIn(handlerCreateFeedFollow))
 	commandMap.register("following", middlewareLoggedIn(handlerGetFeedFollowsForUser))
 	commandMap.register("unfollow", middlewareLoggedIn(handlerUnfollow))
-	
+
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
-	//fmt.Println(cliArgs)
+
 	commandName := cliArgs[1]
 
 	commandArgs := []string{};
 	if len(cliArgs) > 2 {
 		commandArgs = cliArgs[1:]
 	}
-	//fmt.Println(commandArgs);
+
 	newCommand := Command{
 		Name: commandName,
 		Args: commandArgs,
@@ -59,12 +58,6 @@ func main() {
 	if err2 != nil {
 		log.Fatal(err2)
 	}
-	//fmt.Println("post command");
-	// cfg.SetUser("o7o7okok");
-	// redidCfg, err := config.Read(); if err != nil {
-	// 	fmt.Println(err);
-	// }
-	// fmt.Println(redidCfg.DbUrl);
 
 }
 

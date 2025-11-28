@@ -17,3 +17,11 @@ Where users.id = $1 LIMIT 1;
 -- name: GetFeedByURL :one
 Select * from feeds
 Where feeds.url = $1 LIMIT 1;
+
+-- name: MarkFeedFetched :exec
+UPDATE feeds
+SET updated_at = NOW(), last_fetched_at = NOW()
+Where id = $1;
+
+-- name: GetNextFeedToFetch :one
+Select * from feeds ORDER BY last_fetched_at ASC NULLS FIRST LIMIT 1; 

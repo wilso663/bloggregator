@@ -36,6 +36,8 @@ func main() {
 	commandMap.register("feeds", handlerGetFeeds)
 	commandMap.register("follow", middlewareLoggedIn(handlerCreateFeedFollow))
 	commandMap.register("following", middlewareLoggedIn(handlerGetFeedFollowsForUser))
+	commandMap.register("unfollow", middlewareLoggedIn(handlerUnfollow))
+	
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

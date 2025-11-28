@@ -45,3 +45,23 @@ func handlerGetFeedFollowsForUser(s *state, cmd Command, user database.User) err
 	}
 	return nil
 }
+
+func handlerUnfollow(s *state, cmd Command, user database.User) error {
+	if len(cmd.Args) < 2 {
+		return fmt.Errorf("unfollow command must be given a url")
+	}
+	feedUrl := cmd.Args[1];
+	feed, err := s.Db.GetFeedByURL(context.Background(), feedUrl);
+	if err != nil {
+		return fmt.Errorf("failed to get feed id for URL in unfollow command")
+	}
+	err = s.Db.DeleteFeedFollowByUserAndFeed(context.Background(), database.DeleteFeedFollowByUserAndFeedParams{
+		UserID: user.ID,
+		FeedID: feed.ID,
+	})
+	
+	if err != nil {
+		return fmt.Errorf("failed to delete follow record for %s %s", user.ID, feed.ID)
+	}
+	return nil
+}

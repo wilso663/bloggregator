@@ -58,7 +58,7 @@ func handleReset(s *state, cmd Command) error {
 	return nil
 }
 
-func handlerGetAllUsers(s *state, cmd Command) error {
+func handleGetAllUsers(s *state, cmd Command) error {
 	users, err := s.Db.GetUsers(context.Background())
 	if err != nil {
 		return fmt.Errorf("failed to get all users: %s", err)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+
 	_ "github.com/lib/pq"
 	"github.com/wilso663/go-blog/internal/config"
 	"github.com/wilso663/go-blog/internal/database"
@@ -28,7 +29,8 @@ func main() {
 	commandMap.register("login", handlerLogin)
 	commandMap.register("register", handlerRegister)
 	commandMap.register("reset", handleReset)
-	commandMap.register("users", handlerGetAllUsers)
+	commandMap.register("users", handleGetAllUsers)
+	commandMap.register("agg", handleAggregate)
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

@@ -8,6 +8,23 @@ import (
 	"github.com/wilso663/go-blog/internal/database"
 )
 
+func handlerGetFeeds(s *state, cmd Command) error {
+	feeds, err := s.Db.GetAllFeeds(context.Background())
+	if err != nil {
+		return fmt.Errorf("failed db GetAllFeeds %w", err)
+	}
+	for _, feed := range feeds {
+		feedUserName, err := s.Db.GetFeedUserNameById(context.Background(), feed.UserID); 
+		if err != nil {
+			return fmt.Errorf("couldn't find user id for feed in handler %w", err)
+		}
+		fmt.Printf("Feed: %s\n", feed.Name)
+		fmt.Printf("URL: %s\n", feed.Url)
+		fmt.Printf("Username; %s\n", feedUserName)
+	}
+	return nil
+}
+
 func handlerAddFeed(s *state, cmd Command) error {
 	user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUserName)
 	if err != nil {

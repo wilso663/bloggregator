@@ -31,6 +31,7 @@ func main() {
 	commandMap.register("users", handleGetAllUsers)
 	commandMap.register("agg", handleAggregate)
 	commandMap.register("addfeed", handlerAddFeed)
+	commandMap.register("feeds", handlerGetFeeds)
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

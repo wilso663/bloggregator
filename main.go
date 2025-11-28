@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
+
 	_ "github.com/lib/pq"
 	"github.com/wilso663/go-blog/internal/config"
 	"github.com/wilso663/go-blog/internal/database"
@@ -30,10 +32,10 @@ func main() {
 	commandMap.register("reset", handleReset)
 	commandMap.register("users", handleGetAllUsers)
 	commandMap.register("agg", handleAggregate)
-	commandMap.register("addfeed", handlerAddFeed)
+	commandMap.register("addfeed", middlewareLoggedIn(handlerAddFeed))
 	commandMap.register("feeds", handlerGetFeeds)
-	commandMap.register("follow", handlerCreateFeedFollow)
-	commandMap.register("following", handlerGetFeedFollowsForUser)
+	commandMap.register("follow", middlewareLoggedIn(handlerCreateFeedFollow))
+	commandMap.register("following", middlewareLoggedIn(handlerGetFeedFollowsForUser))
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
@@ -69,4 +71,17 @@ func getUserInputArgs() ([]string, error) {
 		return nil, fmt.Errorf("not enough arguments provided")
 	}
 	return os.Args, nil
+}
+
+func middlewareLoggedIn(handler func(s *state, cmd Command, user database.User) error) func(*state, Command) error {
+
+	return func(s *state, cmd Command) error {
+		user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUserName)
+		if err != nil {
+			return fmt.Errorf("couldn't find logged in user: %w", err)
+		}	
+
+		return handler(s, cmd, user)
+	}
+	
 }

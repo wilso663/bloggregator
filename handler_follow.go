@@ -9,13 +9,9 @@ import (
 	"github.com/wilso663/go-blog/internal/database"
 )
 
-func handlerCreateFeedFollow(s *state, cmd Command) error {
+func handlerCreateFeedFollow(s *state, cmd Command, user database.User) error {
 	if len(cmd.Args) < 2 {
 		return fmt.Errorf("follow command must be given a url")
-	}
-	user, err := s.Db.GetUser(context.Background(), s.Cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user id in create feed follow: %w", err)
 	}
 	feedUrl := cmd.Args[1];
 	feed, err := s.Db.GetFeedByURL(context.Background(), feedUrl)
@@ -38,8 +34,8 @@ func handlerCreateFeedFollow(s *state, cmd Command) error {
 }
 
 
-func handlerGetFeedFollowsForUser(s *state, cmd Command) error {
-	feedFollows, err := s.Db.GetFeedFollowsForUser(context.Background(), s.Cfg.CurrentUserName);
+func handlerGetFeedFollowsForUser(s *state, cmd Command, user database.User) error {
+	feedFollows, err := s.Db.GetFeedFollowsForUser(context.Background(), user.Name);
 	if err != nil {
 		return fmt.Errorf("failed to get feed follows for user in handlerGetFeedFollowsForUser %w", err)
 	}

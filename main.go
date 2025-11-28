@@ -32,6 +32,8 @@ func main() {
 	commandMap.register("agg", handleAggregate)
 	commandMap.register("addfeed", handlerAddFeed)
 	commandMap.register("feeds", handlerGetFeeds)
+	commandMap.register("follow", handlerCreateFeedFollow)
+	commandMap.register("following", handlerGetFeedFollowsForUser)
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)

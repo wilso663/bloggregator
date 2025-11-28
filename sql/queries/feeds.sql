@@ -14,3 +14,6 @@ INNER JOIN users
 ON feeds.user_id = users.id
 Where users.id = $1 LIMIT 1;
 
+-- name: GetFeedByURL :one
+Select * from feeds
+Where feeds.url = $1 LIMIT 1;

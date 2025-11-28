@@ -14,12 +14,12 @@ func handlerLogin(s *state, cmd Command) error {
 		return fmt.Errorf("login command given no username")
 	}
 	userName := cmd.Args[1]
-	user, err := s.Db.GetUser(context.Background(), userName)
+	_, err := s.Db.GetUser(context.Background(), userName)
 	if err != nil {
 		return fmt.Errorf("login user: %s failed: %s", userName, err)
 	}
-	fmt.Println("User get debug")
-	fmt.Println(user)
+	// fmt.Println("User get debug")
+	// fmt.Println(user)
 	err2 := s.Cfg.SetUser(userName)
 	if err2 != nil {
 		return fmt.Errorf("login command set user error: %s", err2)

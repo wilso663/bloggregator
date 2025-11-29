@@ -36,6 +36,7 @@ func main() {
 	commandMap.register("follow", middlewareLoggedIn(handlerCreateFeedFollow))
 	commandMap.register("following", middlewareLoggedIn(handlerGetFeedFollowsForUser))
 	commandMap.register("unfollow", middlewareLoggedIn(handlerUnfollow))
+	commandMap.register("browse", middlewareLoggedIn(handlerBrowse))
 
 	cliArgs, err := getUserInputArgs()
 	if err != nil {
